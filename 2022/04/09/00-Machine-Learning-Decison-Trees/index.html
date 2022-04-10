@@ -22,13 +22,13 @@
 
   <meta name="description" content="决策树                           The words printed here are concepts, You must go through the experiences. Carl Frederick">
 <meta property="og:type" content="article">
-<meta property="og:title" content="00 Machine Learning-Decison Trees">
+<meta property="og:title" content="00 Machine Learning-Decison Trees 1">
 <meta property="og:url" content="http://zhangjin.link/2022/04/09/00-Machine-Learning-Decison-Trees/index.html">
 <meta property="og:site_name" content="A NICE DAY!">
 <meta property="og:description" content="决策树                           The words printed here are concepts, You must go through the experiences. Carl Frederick">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-04-09T12:57:09.000Z">
-<meta property="article:modified_time" content="2022-04-09T13:10:00.478Z">
+<meta property="article:modified_time" content="2022-04-10T02:26:30.666Z">
 <meta property="article:author" content="张锦">
 <meta property="article:tag" content="决策树">
 <meta name="twitter:card" content="summary">
@@ -46,7 +46,7 @@
   };
 </script>
 
-  <title>00 Machine Learning-Decison Trees | A NICE DAY!</title>
+  <title>00 Machine Learning-Decison Trees 1 | A NICE DAY!</title>
   
 
 
@@ -175,7 +175,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          00 Machine Learning-Decison Trees
+          00 Machine Learning-Decison Trees 1
         </h1>
 
         <div class="post-meta">
@@ -184,10 +184,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2022-04-09 20:57:09 / 修改时间：21:10:00" itemprop="dateCreated datePublished" datetime="2022-04-09T20:57:09+08:00">2022-04-09</time>
+              <time title="创建时间：2022-04-09 20:57:09" itemprop="dateCreated datePublished" datetime="2022-04-09T20:57:09+08:00">2022-04-09</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-04-10 10:26:30" itemprop="dateModified" datetime="2022-04-10T10:26:30+08:00">2022-04-10</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -211,14 +217,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>137</span>
+              <span>1.5k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
+              <span>3 分钟</span>
             </span>
 
         </div>
@@ -239,7 +245,16 @@
 <blockquote><p>The words printed here are concepts, You must go through the experiences.</p>
 <footer><strong>Carl Frederick</strong></footer></blockquote>
 
+<span id="more"></span>
 
+<h3 id="学习目标"><a href="#学习目标" class="headerlink" title="学习目标"></a>学习目标</h3><ul>
+<li>能够区分<code>记忆(memorization)</code>和<code>泛化(generalization)</code>;</li>
+<li>能够实现一个决策树分类器(decision tree classifier);</li>
+<li>把一个具体的任务(concrete task)当做是学习目标，使用形式化的概念(formal notion)表示<code>输入空间(input space)</code>、<code>特征(feature)</code>、<code>输出空间(output space)</code>，生成<code>分布函数(distribution function)</code>和<code>损失函数(loss function)</code>;</li>
+</ul>
+<p>一般而言，机器学习(Machine Learning)是用过去经验来预测未来。 比如，可能你希望基于用户Alice对过去所看过的电影的打分高低，来推断她对某一部没有看过的电影的喜好程度。这个预测结果会受到很多电影<code>因素</code>的影响: 电影分类(戏剧、纪录片etc.)、语言、导演和演员和制片公司等。<code>总的而言，根据观察到的物体某些属性，机器学习能够物体某些未被观察到的属性做出有根据的猜测(informed guesses)。</code></p>
+<p>在这里，我们将会提出第一个问题：what does it mean to learn? 为了能够开发<code>learning machine</code>, 我们必须清楚<code>学习(learning)</code>的真正含义是什么，以及如何去评判成功和失败！你将会在一个非常有限的学习环境中看到这个问题的回答，并且在后面的章节进行放松和调整。具体而言，我们的重点将会放在一个非常简单的模型-<code>决策树(decision tree)</code></p>
+<h3 id="What-does-it-mean-to-learn"><a href="#What-does-it-mean-to-learn" class="headerlink" title="What does it mean to learn?"></a>What does it mean to learn?</h3><p>Alice 刚刚开始接触机器学习这门课，她期待在课程的最后能够掌握已经学到的全部内容。一种常用的方法就是通过考试来评判–考试考得好，说明这门课学得好！<br>但是如何开展一场合理的测试？假若老师上课花费大量的时间在谈论机器学习相关的内容，但是在考核时却使用了与讲授内容无关的试卷，那么Alice的考试成绩就不能反映她的学习情况。此外，倘若老师在考试过程中仅仅是考察课堂上讲过的内容，那么这也是一场糟糕的考试，它同样不能反映Alice的学习情况。我们所期待的是，<code>Alice能够观察课堂中的具体例子，然后在考试中回答新的相关问题。</code>这是在测试Alice是否具备了<code>泛化(generalize)</code>的能力。<code>泛化(generalization)</code>几乎是机器学习中最核心的概念！<br>举个具体的例子， 考虑为计算机科学专业的本科生设计一个课程推荐系统。我们有两个数据集：学生集合、课程集合。每个学生都已经选修并评估了其中某些课程。学生对课程的评估直接使用简单的分数 -2(terrible) 到 2(awesome)。要设计的推荐系统需要实现某个具体的学生对某门具体课程的喜好程度！<br>根据所提供的课程评分(历史数据)，我们尝试去预测新课程的评分(将来数据)。接下来我们对推荐系统所做的两件事是不公平的！其一，我们期待得知Alice对于一门新课程的喜好程度，这是不公平的，因为历史数据中并不存在相关的内容；其二，我们期待得知Alice对于某一个选修过的课程的喜好程度，从历史信息可以直接查询出来，这个结果是从历史数据中查询所得，而不是推荐系统学习而来！前面的一个例子，我们希望系统能够泛化经验之外的内容，在后面的例子，我们却并不希望它具有泛化能力！</p>
 
     </div>
 
@@ -255,7 +270,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://zhangjin.link/2022/04/09/00-Machine-Learning-Decison-Trees/" title="00 Machine Learning-Decison Trees">http://zhangjin.link/2022/04/09/00-Machine-Learning-Decison-Trees/</a>
+    <a href="http://zhangjin.link/2022/04/09/00-Machine-Learning-Decison-Trees/" title="00 Machine Learning-Decison Trees 1">http://zhangjin.link/2022/04/09/00-Machine-Learning-Decison-Trees/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
@@ -345,6 +360,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AD%A6%E4%B9%A0%E7%9B%AE%E6%A0%87"><span class="nav-number">1.</span> <span class="nav-text">学习目标</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#What-does-it-mean-to-learn"><span class="nav-number">2.</span> <span class="nav-text">What does it mean to learn?</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -407,12 +423,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">8k</span>
+    <span title="站点总字数">10k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">15 分钟</span>
+    <span title="站点阅读时长">18 分钟</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
   </div>
