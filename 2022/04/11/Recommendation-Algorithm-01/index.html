@@ -31,7 +31,7 @@
 <meta property="og:image" content="http://zhangjin.link/2022/04/11/Recommendation-Algorithm-01/f1.png">
 <meta property="og:image" content="http://zhangjin.link/2022/04/11/Recommendation-Algorithm-01/f2.png">
 <meta property="article:published_time" content="2022-04-11T08:33:42.000Z">
-<meta property="article:modified_time" content="2022-04-12T15:10:41.399Z">
+<meta property="article:modified_time" content="2022-04-13T09:30:15.691Z">
 <meta property="article:author" content="张锦">
 <meta property="article:tag" content="推荐算法">
 <meta name="twitter:card" content="summary">
@@ -196,7 +196,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-04-12 23:10:41" itemprop="dateModified" datetime="2022-04-12T23:10:41+08:00">2022-04-12</time>
+                <time title="修改时间：2022-04-13 17:30:15" itemprop="dateModified" datetime="2022-04-13T17:30:15+08:00">2022-04-13</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -225,14 +225,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>4.7k</span>
+              <span>6.4k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>9 分钟</span>
+              <span>12 分钟</span>
             </span>
 
         </div>
@@ -256,7 +256,7 @@
 <li>学习模型参数<br>—&gt; 扩展矩阵分解</li>
 </ul>
 <h3 id="关键词"><a href="#关键词" class="headerlink" title="关键词"></a>关键词</h3><p>Recommender System; Graph Neural Networks; Heterogeneous Information Network;</p>
-<h3 id="1-介绍"><a href="#1-介绍" class="headerlink" title="1. 介绍"></a>1. 介绍</h3><p>近年来，MOOCs正逐渐成为一种替代全球教育的模式。比如Cousera, edX和Udacity这三大开创性的MOOCs平台为成百上千万的用户提供了全球知名大学的众多课程。同样在中国，数以百万记得用户在XuetangX学习，这是一个最大的MOOCs平台之一，里面提供了数千名不同学科的课程。[Although]尽管众多的学生能够在MOOCs平台持续学习、成长，但是这些平台本身也面临着很多困难。[challenge]一个具有挑战性的问题就是how to attract students to study continuously and efficiently on the platforms【如何吸引学生在平台上持续、高效地学习】，因为在这些平台上总体课程的完成率是低于5%。【Therefore】这需要更好的理解和掌握学生的兴趣所在。<br>为了在MOOCs上理解和把握学生的兴趣，人们已经做出了多项努力，包括课程推荐系统、行为预测、用户意图识别等待。在这些努力里面，MOOCs提供者使用推荐系统为学生推荐课程。【However】一个课程常常由众多的视频讲座组成，每一个讲座亦涵盖了很多具体的知识概念。直接进行课程推荐会忽视了学生们对某些具体知识概念的兴趣，比如计算机视觉[Computer Vision, CV]课程由不同教授来讲授从微观视角[microscopic view， cover different sets of knowledge concepts]会有很大的差异: 某些讲师可能只是讲授基于几何的方法，而另一些讲师可能只是介绍深度学习的方法，因此对基于深度学习方法感兴趣的学生推荐仅涵盖基于几何方法的CV课程并不是一个很好的匹配方案。因此需要从微观的视角去研究学生在线学习的兴趣，并且开展知识概念推荐。<br>传统的推荐策略，比如协同过滤[Collaborative filtering, CF]是通过考虑用户(在这里是学生)的历史交互信息，并根据兴趣相似的用户的潜在共同偏好提出的建议，这种方法已经取得巨大的成功。然而， CF所依据的方法存在着用户项(student-knowledge concept)关系稀疏的问题，这个问题限制了推荐系统的性能[GAP]。为了克服这个困难，人们利用辅助信息做出了大量的努力，比如社交网络[Social Network]、y用户/项目属性[User/Item Attributes]、图像[Images]、上下文[Contexts]等。在MOOCs平台上，我们通过观察发现，除了用户-知识概念实体关系，仍然存在着很多类型的<code>实体</code>(video, course, teacher)和众多不同实体之间的<code>关系</code>，Table 1展示了2018年1月1日到2018年3月31日期间真实世界XuetangX数据的统计数据。</p>
+<h3 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h3><p>近年来，MOOCs正逐渐成为一种替代全球教育的模式。比如Cousera, edX和Udacity这三大开创性的MOOCs平台为成百上千万的用户提供了全球知名大学的众多课程。同样在中国，数以百万记得用户在XuetangX学习，这是一个最大的MOOCs平台之一，里面提供了数千名不同学科的课程。[Although]尽管众多的学生能够在MOOCs平台持续学习、成长，但是这些平台本身也面临着很多困难。[challenge]一个具有挑战性的问题就是how to attract students to study continuously and efficiently on the platforms【如何吸引学生在平台上持续、高效地学习】，因为在这些平台上总体课程的完成率是低于5%。【Therefore】这需要更好的理解和掌握学生的兴趣所在。<br>为了在MOOCs上理解和把握学生的兴趣，人们已经做出了多项努力，包括课程推荐系统、行为预测、用户意图识别等待。在这些努力里面，MOOCs提供者使用推荐系统为学生推荐课程。【However】一个课程常常由众多的视频讲座组成，每一个讲座亦涵盖了很多具体的知识概念。直接进行课程推荐会忽视了学生们对某些具体知识概念的兴趣，比如计算机视觉[Computer Vision, CV]课程由不同教授来讲授从微观视角[microscopic view， cover different sets of knowledge concepts]会有很大的差异: 某些讲师可能只是讲授基于几何的方法，而另一些讲师可能只是介绍深度学习的方法，因此对基于深度学习方法感兴趣的学生推荐仅涵盖基于几何方法的CV课程并不是一个很好的匹配方案。因此需要从微观的视角去研究学生在线学习的兴趣，并且开展知识概念推荐。<br>传统的推荐策略，比如协同过滤[Collaborative filtering, CF]是通过考虑用户(在这里是学生)的历史交互信息，并根据兴趣相似的用户的潜在共同偏好提出的建议，这种方法已经取得巨大的成功。然而， CF所依据的方法存在着用户项(student-knowledge concept)关系稀疏的问题，这个问题限制了推荐系统的性能[GAP]。为了克服这个困难，人们利用辅助信息做出了大量的努力，比如社交网络[Social Network]、y用户/项目属性[User/Item Attributes]、图像[Images]、上下文[Contexts]等。在MOOCs平台上，我们通过观察发现，除了用户-知识概念实体关系，仍然存在着很多类型的<code>实体</code>(video, course, teacher)和众多不同实体之间的<code>关系</code>，Table 1展示了2018年1月1日到2018年3月31日期间真实世界XuetangX数据的统计数据。</p>
 <p><img src="/2022/04/11/Recommendation-Algorithm-01/t1.png" style="zoom:80%;"></p>
 <p>这个数据集包含了9986个用户、43405个视频、7029个课程、5038个老师、1029个知识概念以及相关的多种类型关系。如Figure 1所示，“Course: V_9e77179”包含了”Knowledge concept： c++”, “student: 207256”正在学习”Course: CaltechX”，”video: V_1a9aa686”是与”Knowledge concept: binary tree“相关，”Course: CaltechX”是由”teacher: Smith”讲授。比如，”user: 207256“点击”Knowledge Concept: c++”、”Knowledge concept: binary tree“和”Knowledge concept: depth-first search“.考虑到以上的多种关系，我们可以获得更多有效的事实，以及用户和知识概念之间的互动。【用户兴趣】</p>
 <p><img src="/2022/04/11/Recommendation-Algorithm-01/f1.png" style="zoom:60%"></p>
@@ -269,14 +269,29 @@
 <li>我门设计了一种端到端的GCN，它能够将内容和异构上下文信息融合到不同实体的表示学习中。这个模型能够自动的发现用户的潜在兴趣，因为以一种注意力方式的元路径来引导传播用户的偏好；</li>
 <li>我们使用来源于XentangX收集的真实世界数据开展了大量的实验研究来全面评估所提出模型的性能表现。我们研究了以下参数：Meta-Paths组合、表示维度、潜在因素(number of latent factories)和GCNs的层数。与一系列强基线的比较，我们综合上说明了所提出模型的有效性。</li>
 </ul>
-<h3 id="2-问题陈述-amp-系统框架"><a href="#2-问题陈述-amp-系统框架" class="headerlink" title="2. 问题陈述&amp;系统框架"></a>2. 问题陈述&amp;系统框架</h3><h4 id="2-1-问题陈述"><a href="#2-1-问题陈述" class="headerlink" title="2.1 问题陈述"></a>2.1 问题陈述</h4><p>给定一个目标用在MOOCs中拥有相应的交互数据，目标是计算用户在一系列知识概念上的兴趣分数，推荐结果是一个知识概念的TOP-N列表。更正式而言，根据用户<code>u</code>的历史交互信息，学习预测函数<code>f</code>，并使用它来生成新的知识概念推荐列表K. (e.g., “c++”, “binary tree”, “linked list”, etc.)，比如：</p>
+<h3 id="问题陈述-amp-系统框架"><a href="#问题陈述-amp-系统框架" class="headerlink" title="问题陈述&amp;系统框架"></a>问题陈述&amp;系统框架</h3><h4 id="问题陈述"><a href="#问题陈述" class="headerlink" title="问题陈述"></a>问题陈述</h4><p>给定一个目标用在MOOCs中拥有相应的交互数据，目标是计算用户在一系列知识概念上的兴趣分数，推荐结果是一个知识概念的TOP-N列表。更正式而言，根据用户<code>u</code>的历史交互信息，学习预测函数<code>f</code>，并使用它来生成新的知识概念推荐列表K. (e.g., “c++”, “binary tree”, “linked list”, etc.)，比如：</p>
 <script type="math/tex; mode=display">
-f : u\rightarrow \{k_i|k_i\in K, i < N\}</script><h3 id="2-2-系统架构"><a href="#2-2-系统架构" class="headerlink" title="2.2 系统架构"></a>2.2 系统架构</h3><p>我们所提出的知识概念推荐系统的体系结构 ACKRec 如f2所示。它包含了下面所提的组件：</p>
+f : u\rightarrow \{k_i|k_i\in K, i < N\}</script><h4 id="系统架构"><a href="#系统架构" class="headerlink" title="系统架构"></a>系统架构</h4><p>我们所提出的知识概念推荐系统的体系结构 ACKRec 如f2所示。它包含了下面所提的组件：</p>
 <ul>
-<li>特征提取(Feature Extraction)</li>
-<li>元路径选取(Meta-path Selection)</li>
-<li>异构实体的表示学习(Representation Learning of Heterogeneous Entities)</li>
-<li>评分预测(Rating Prediction)<br><img src="/2022/04/11/Recommendation-Algorithm-01/f2.png" style="zoom:80%"></li>
+<li>特征提取(Feature Extraction)<br>  通过使用MOOCs采集而来的数据，首先我们从知识概念名称解析内容信息作为内容特征，然后分析在不同类型实体(e.g., 知识概念，视频，课程)之间的各种关系(eg., concept-video, concept-course relations)来描述知识概念。同样，我们也为用户生成了概念特征和上下文特征(See Section 3.1 for details regarding feature extraction)。</li>
+<li>元路径选取(Meta-path Selection)<br>  在这一个模块，根据从数据中提取出来的特征，我们构造了一个HIN结构来给不同类型实体的关系来建模，然后在HIN中选择不同的元路径来描述知识概念的相关性。（即具有不同的含义）比如，若两个用户同时参加了同一门课程，我们会在两个用户之间引入一条边。(See 3.2 for details regarding the meta-path builder on HIN.)</li>
+<li>异构实体的表示学习(Representation Learning of Heterogeneous Entities)<br>  根据前一步构建的元路径，我们提出使用<code>表示学习</code>(representation learning)在异构视角下学习实体的低维表示。该模型能够捕获到异构实体之间结构的相关性。特别地，我们充分利用了挑选出来的元路径通过GCN来引导实体表示学习。之后我们会利用注意力机制(Attention mechanism)来自适应地融合来自不同元路径的实体表示。(See section 3.3 for details regarding our proposed model ACKRec)</li>
+<li>评分预测(Rating Prediction)<br>  在生成了低维度的用户和知识概念的表示，将实体的稠密向量输入扩展矩阵分解，来学习模型参数。此外，我们预测用户的对为点击的知识概念兴趣是根据user-item(student-konwledge concept)评分矩阵。</li>
+</ul>
+<p>分析</p>
+<ol>
+<li><code>知识概念名称</code>中提取<code>内容信息</code>作为<code>内容特征</code>（究竟从里面提取出了什么？）分析了各种实体之间的关系(找出各个实体之间可能存在的关系信息)来描述知识概念！ （描述）</li>
+<li>构造HIN给不同类型实体关系建模，<code>选择不同元路径</code>来描述<code>知识概念</code>的相关性；（相关性）</li>
+<li>在异构视角下使用表示学习<code>实体的低维度表示</code>，捕获异构实体的相关性；利用元路径来引导表示学习，自适应融合实体表示；</li>
+<li>评分预测<br><img src="/2022/04/11/Recommendation-Algorithm-01/f2.png" style="zoom:80%"></li>
+</ol>
+<h3 id="所建议的方法"><a href="#所建议的方法" class="headerlink" title="所建议的方法"></a>所建议的方法</h3><p>在这个环节，我们引入细节部分来解释 1. 根据生成内容特征和上下文特征，我们是如何学习知识概念和用户的表示； 2. 根据所学习到的表示，我们是如何开展知识概念推荐；</p>
+<h4 id="特征抽取"><a href="#特征抽取" class="headerlink" title="特征抽取"></a>特征抽取</h4><h5 id="内容特征"><a href="#内容特征" class="headerlink" title="内容特征"></a>内容特征</h5><p>一般而言，知识概念的名字基本就是知识概念的概括。（e.g., “c++”,”binary tree”, “linked list”）, 里面包含了丰富的语义信息。因此，我们生成知识概念名称的单词嵌入，并将其作为知识概念的内容特征。不失一般性，我们使用Word2vector来生成词嵌入。对于用户概念，我们以同样的来方式生成。<br>    <code>在这里，直接使用了名字作为知识概念和用户概念(实体概念！)&amp;W2v来生成嵌入</code></p>
+<h5 id="上下文特征"><a href="#上下文特征" class="headerlink" title="上下文特征"></a>上下文特征</h5><p>知识概念名称的单词嵌入等内容特征可以用来表示知识概念信息。此外，网络结构中存在着丰富的上下文信息，如不同实体之间的关系。(e.g., user:207256 watched video: v_9e77179 &amp; video: v_1a9aa686; this behavior implies a relation between this two videos.)为了引入包含了不同类型实体的复杂关系，我们进一步将上下文信息建模为特征。特别地，在用户学习活动中考虑了以下关系。</p>
+<ul>
+<li>R<sub>1</sub><sup>u</sup>: 根据用户在线行为习惯的数据，我们建立了<code>user-click-knowledge concept</code>矩阵A<sub>1</sub><sup>u</sup>, 其中每个 c<sub>i,j</sub> 属于{0, 1}用来表示用户 i在他的学习行为中点击了知识概念 j。</li>
+<li>R<sub>2</sub><sup>u</sup>: 为了描述用户和课程之间的关系，我们生成了<code>user-learn-course</code> 矩阵A<sub>2</sub><sup>u</sup>，里面的每个 l<sub>i, j</sub>属于 {0, 1}用来表示用户i选择了课程j；</li>
+<li>R<sub>3</sub><sup>u</sup>: 同样的，我们生成了<code>user-watch-video</code>矩阵 A<sub>3</sub><sup>u</sup>，里面的每一个元素 w<sub>i, j</sub>属于 {0, 1}用来表示用户i学习了视频j；</li>
 </ul>
 
     </div>
@@ -388,7 +403,7 @@ f : u\rightarrow \{k_i|k_i\in K, i < N\}</script><h3 id="2-2-系统架构"><a hr
             在异构视角下Moocs知识概念推荐的注意力机制的图卷积网络 
 
             
-          </span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%91%98%E8%A6%81"><span class="nav-number">2.</span> <span class="nav-text">摘要</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E9%94%AE%E8%AF%8D"><span class="nav-number">3.</span> <span class="nav-text">关键词</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E4%BB%8B%E7%BB%8D"><span class="nav-number">4.</span> <span class="nav-text">1. 介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E9%97%AE%E9%A2%98%E9%99%88%E8%BF%B0-amp-%E7%B3%BB%E7%BB%9F%E6%A1%86%E6%9E%B6"><span class="nav-number">5.</span> <span class="nav-text">2. 问题陈述&amp;系统框架</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-%E9%97%AE%E9%A2%98%E9%99%88%E8%BF%B0"><span class="nav-number">5.1.</span> <span class="nav-text">2.1 问题陈述</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84"><span class="nav-number">6.</span> <span class="nav-text">2.2 系统架构</span></a></li></ol></div>
+          </span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%91%98%E8%A6%81"><span class="nav-number">2.</span> <span class="nav-text">摘要</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E9%94%AE%E8%AF%8D"><span class="nav-number">3.</span> <span class="nav-text">关键词</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%8B%E7%BB%8D"><span class="nav-number">4.</span> <span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E9%99%88%E8%BF%B0-amp-%E7%B3%BB%E7%BB%9F%E6%A1%86%E6%9E%B6"><span class="nav-number">5.</span> <span class="nav-text">问题陈述&amp;系统框架</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E9%99%88%E8%BF%B0"><span class="nav-number">5.1.</span> <span class="nav-text">问题陈述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84"><span class="nav-number">5.2.</span> <span class="nav-text">系统架构</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%89%80%E5%BB%BA%E8%AE%AE%E7%9A%84%E6%96%B9%E6%B3%95"><span class="nav-number">6.</span> <span class="nav-text">所建议的方法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%89%B9%E5%BE%81%E6%8A%BD%E5%8F%96"><span class="nav-number">6.1.</span> <span class="nav-text">特征抽取</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%86%85%E5%AE%B9%E7%89%B9%E5%BE%81"><span class="nav-number">6.1.1.</span> <span class="nav-text">内容特征</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%8A%E4%B8%8B%E6%96%87%E7%89%B9%E5%BE%81"><span class="nav-number">6.1.2.</span> <span class="nav-text">上下文特征</span></a></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -451,12 +466,12 @@ f : u\rightarrow \{k_i|k_i\in K, i < N\}</script><h3 id="2-2-系统架构"><a hr
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">19k</span>
+    <span title="站点总字数">20k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">34 分钟</span>
+    <span title="站点阅读时长">37 分钟</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
   </div>
