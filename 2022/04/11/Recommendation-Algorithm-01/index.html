@@ -31,7 +31,7 @@
 <meta property="og:image" content="http://zhangjin.link/2022/04/11/Recommendation-Algorithm-01/f1.png">
 <meta property="og:image" content="http://zhangjin.link/2022/04/11/Recommendation-Algorithm-01/f2.png">
 <meta property="article:published_time" content="2022-04-11T08:33:42.000Z">
-<meta property="article:modified_time" content="2022-04-13T15:28:50.581Z">
+<meta property="article:modified_time" content="2022-04-13T15:52:34.809Z">
 <meta property="article:author" content="张锦">
 <meta property="article:tag" content="推荐算法">
 <meta name="twitter:card" content="summary">
@@ -196,7 +196,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-04-13 23:28:50" itemprop="dateModified" datetime="2022-04-13T23:28:50+08:00">2022-04-13</time>
+                <time title="修改时间：2022-04-13 23:52:34" itemprop="dateModified" datetime="2022-04-13T23:52:34+08:00">2022-04-13</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -225,14 +225,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>7.6k</span>
+              <span>8.1k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>14 分钟</span>
+              <span>15 分钟</span>
             </span>
 
         </div>
@@ -296,6 +296,8 @@ f : u\rightarrow \{k_i|k_i\in K, i < N\}</script><h4 id="系统架构"><a href="
 </ul>
 <p>我们生成这些关系用于描述HIN中与用户相关的交互信息。 对于<code>知识概念</code>，我们还发现了很多与之相关的关系。比如，视频中包含的关系知识概念表示<code>视频中包含知识概念</code>，而涉及课程的关系知识概念表示<code>课程中包含知识概念</code>。</p>
 <h4 id="基于关系的元路径"><a href="#基于关系的元路径" class="headerlink" title="基于关系的元路径"></a>基于关系的元路径</h4><p>为了以一种适当的关系对不同类型的实体和其复杂关系建模，我们首先描述了如何使用HIN来描述用户、知识概念和它们之间的异构关系。在开展我们的方法之前，我们先介绍一些相关的概念。<br>定义 1: <code>异构信息网络</code>(异质信息网络, Heterogeneous information network, HIN) 表示为<code>G = &#123;V, E&#125;</code>由对象集<code>V</code>和链接集<code>E</code>组成。HIN还与对象映射函数相关联 $\phi$: V -&gt; N 和链接映射函数相关联 $\varphi$: E -&gt; R。N和R表示预定义的对象和链接类型的集合， 其中<code>|N|+|R| &gt; 2</code><br>在这个研究当中，我们把MOOCs数据建模为HIN。明确地，我们所构造的HIN包含了5种实体：(i.e. user(U), course(C), video(V), teacher(T), knowledge concept(K) f2所示)以及一系列的关系(e.g. R<sub>1</sub><sup>u</sup>, R<sub>2</sub><sup>u</sup>, R<sub>3</sub><sup>u</sup>, R<sub>4</sub><sup>u</sup>)。<br>基于所构造的HIN，我们可以定义网络模式，它们的定义如下。<br>定义2： <code>网络模式</code>(Netowork schema) 网络模式定义为 <code>S = (N, R)</code>。它是一个信息网络<code>G=&#123;V, E&#125;</code>的元模板，对象类型映射为 <code>S: V-&gt;N</code>和链接类型映射为 $\varphi$:E-R, 这是一个有向图，定义对象类型N上，边是R的关系。我们在f3中定义了网络模式，它在MOOCs数据集中全面的表示语义和相关信息。基于网络模式，我们可以发现一对实体之间的语义路径，也就是元路径（Meta-path）。<br>定义3: <code>Meta-path</code> 在网络模式S=(N, R)上定义了元路径，并且以 $N_1 \stackrel{R_1}{\rightarrow} N_2 \stackrel{R_2}{\rightarrow} … \stackrel{R_t}{\rightarrow} N_l$ 方式来表示(缩写为$N_1,N_2,…,N_l$)，这是在描述一种在对象$N_1 和 N_l$之间的复合关系 $R = R_1 \circ R_2 … \circ R_m$ (其中m+1=l)，其中$ \circ $ 描述关系上的复合运算。</p>
+<p>两个用户之间的典型元路径可以定义为如下：<br>    $U \stackrel{click}{\rightarrow} K \stackrel{click^{-1}}{\rightarrow} U$<br>    它表示两个不同的用户是相关的，因为他们点击了同一个知识概念。<br>    $U \stackrel{learn}{\rightarrow} C \stackrel{taught by}{\rightarrow} T \stackrel{taught by^{-1}}{\rightarrow} C \stackrel{learn^{-1}}{\rightarrow} U$，这表示两个用户通过包含同一位教师讲授的不同课程的路径相互关联。特别注意，HIN产生的潜在元路径可以是无限的，但是并非每个人都与感兴趣的特定任务关联并且有用。<code>幸运的是，最近提出一些算法，用于自动的选择特定任务的元路径。</code> 考虑到所有关于HIN的概念，我们现在开始讨论异构信息网络中表示学习的问题。在文章中我们使用到的符号总结在Table 2中。</p>
+<h3 id="基于注意力的HIN表征学习图卷积网络"><a href="#基于注意力的HIN表征学习图卷积网络" class="headerlink" title="基于注意力的HIN表征学习图卷积网络"></a>基于注意力的HIN表征学习图卷积网络</h3><p>​    </p>
 
     </div>
 
@@ -406,7 +408,7 @@ f : u\rightarrow \{k_i|k_i\in K, i < N\}</script><h4 id="系统架构"><a href="
             在异构视角下Moocs知识概念推荐的注意力机制的图卷积网络 
 
             
-          </span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%91%98%E8%A6%81"><span class="nav-number">2.</span> <span class="nav-text">摘要</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E9%94%AE%E8%AF%8D"><span class="nav-number">3.</span> <span class="nav-text">关键词</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%8B%E7%BB%8D"><span class="nav-number">4.</span> <span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E9%99%88%E8%BF%B0-amp-%E7%B3%BB%E7%BB%9F%E6%A1%86%E6%9E%B6"><span class="nav-number">5.</span> <span class="nav-text">问题陈述&amp;系统框架</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E9%99%88%E8%BF%B0"><span class="nav-number">5.1.</span> <span class="nav-text">问题陈述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84"><span class="nav-number">5.2.</span> <span class="nav-text">系统架构</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%89%80%E5%BB%BA%E8%AE%AE%E7%9A%84%E6%96%B9%E6%B3%95"><span class="nav-number">6.</span> <span class="nav-text">所建议的方法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%89%B9%E5%BE%81%E6%8A%BD%E5%8F%96"><span class="nav-number">6.1.</span> <span class="nav-text">特征抽取</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%86%85%E5%AE%B9%E7%89%B9%E5%BE%81"><span class="nav-number">6.1.1.</span> <span class="nav-text">内容特征</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%8A%E4%B8%8B%E6%96%87%E7%89%B9%E5%BE%81"><span class="nav-number">6.1.2.</span> <span class="nav-text">上下文特征</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8E%E5%85%B3%E7%B3%BB%E7%9A%84%E5%85%83%E8%B7%AF%E5%BE%84"><span class="nav-number">6.2.</span> <span class="nav-text">基于关系的元路径</span></a></li></ol></li></ol></div>
+          </span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%91%98%E8%A6%81"><span class="nav-number">2.</span> <span class="nav-text">摘要</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E9%94%AE%E8%AF%8D"><span class="nav-number">3.</span> <span class="nav-text">关键词</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%8B%E7%BB%8D"><span class="nav-number">4.</span> <span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E9%99%88%E8%BF%B0-amp-%E7%B3%BB%E7%BB%9F%E6%A1%86%E6%9E%B6"><span class="nav-number">5.</span> <span class="nav-text">问题陈述&amp;系统框架</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E9%99%88%E8%BF%B0"><span class="nav-number">5.1.</span> <span class="nav-text">问题陈述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84"><span class="nav-number">5.2.</span> <span class="nav-text">系统架构</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%89%80%E5%BB%BA%E8%AE%AE%E7%9A%84%E6%96%B9%E6%B3%95"><span class="nav-number">6.</span> <span class="nav-text">所建议的方法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%89%B9%E5%BE%81%E6%8A%BD%E5%8F%96"><span class="nav-number">6.1.</span> <span class="nav-text">特征抽取</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%86%85%E5%AE%B9%E7%89%B9%E5%BE%81"><span class="nav-number">6.1.1.</span> <span class="nav-text">内容特征</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%8A%E4%B8%8B%E6%96%87%E7%89%B9%E5%BE%81"><span class="nav-number">6.1.2.</span> <span class="nav-text">上下文特征</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8E%E5%85%B3%E7%B3%BB%E7%9A%84%E5%85%83%E8%B7%AF%E5%BE%84"><span class="nav-number">6.2.</span> <span class="nav-text">基于关系的元路径</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8E%E6%B3%A8%E6%84%8F%E5%8A%9B%E7%9A%84HIN%E8%A1%A8%E5%BE%81%E5%AD%A6%E4%B9%A0%E5%9B%BE%E5%8D%B7%E7%A7%AF%E7%BD%91%E7%BB%9C"><span class="nav-number">7.</span> <span class="nav-text">基于注意力的HIN表征学习图卷积网络</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -474,7 +476,7 @@ f : u\rightarrow \{k_i|k_i\in K, i < N\}</script><h4 id="系统架构"><a href="
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">39 分钟</span>
+    <span title="站点阅读时长">40 分钟</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
   </div>
