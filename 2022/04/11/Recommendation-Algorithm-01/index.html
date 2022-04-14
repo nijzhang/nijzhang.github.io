@@ -33,8 +33,14 @@
 <meta property="og:image" content="http://zhangjin.link/2022/04/11/Recommendation-Algorithm-01/f3.png">
 <meta property="og:image" content="http://zhangjin.link/2022/04/11/Recommendation-Algorithm-01/t2.png">
 <meta property="og:image" content="http://zhangjin.link/2022/04/11/Recommendation-Algorithm-01/a1.png">
+<meta property="og:image" content="http://zhangjin.link/2022/04/11/Recommendation-Algorithm-01/t3.png">
+<meta property="og:image" content="http://zhangjin.link/2022/04/11/Recommendation-Algorithm-01/f4.png">
+<meta property="og:image" content="http://zhangjin.link/2022/04/11/Recommendation-Algorithm-01/f5.png">
+<meta property="og:image" content="http://zhangjin.link/2022/04/11/Recommendation-Algorithm-01/f6.png">
+<meta property="og:image" content="http://zhangjin.link/2022/04/11/Recommendation-Algorithm-01/t4.png">
+<meta property="og:image" content="http://zhangjin.link/2022/04/11/Recommendation-Algorithm-01/f7.png">
 <meta property="article:published_time" content="2022-04-11T08:33:42.000Z">
-<meta property="article:modified_time" content="2022-04-14T04:08:57.157Z">
+<meta property="article:modified_time" content="2022-04-14T13:39:26.374Z">
 <meta property="article:author" content="张锦">
 <meta property="article:tag" content="推荐算法">
 <meta name="twitter:card" content="summary">
@@ -199,7 +205,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-04-14 12:08:57" itemprop="dateModified" datetime="2022-04-14T12:08:57+08:00">2022-04-14</time>
+                <time title="修改时间：2022-04-14 21:39:26" itemprop="dateModified" datetime="2022-04-14T21:39:26+08:00">2022-04-14</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -228,14 +234,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>10k</span>
+              <span>16k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>18 分钟</span>
+              <span>29 分钟</span>
             </span>
 
         </div>
@@ -319,7 +325,48 @@ f : u\rightarrow \{k_i|k_i\in K, i < N\}</script><h4 id="系统架构"><a href="
     e = \sum_{i=1}^{|MP|} \alpha_{MP_{i}}e_{MP_{i}}</script><p>其中，</p>
 <script type="math/tex; mode=display">
     \alpha = \sum_{i=1}^{|MP|} \alpha_{MP_{i}}</script><p>且<code>e</code>表示知识概念的最终表示。 Meta-path注意力机制通过利用不同元路径的相关性和学习实体表示，使得我们更好地推断不同元路径的重要性。 算法框架如 Algorithm 1所示。<br><img src="/2022/04/11/Recommendation-Algorithm-01/a1.png"></p>
-<h4 id="知识概念推荐的矩阵分解"><a href="#知识概念推荐的矩阵分解" class="headerlink" title="知识概念推荐的矩阵分解"></a>知识概念推荐的矩阵分解</h4>
+<h4 id="知识概念推荐的矩阵分解"><a href="#知识概念推荐的矩阵分解" class="headerlink" title="知识概念推荐的矩阵分解"></a>知识概念推荐的矩阵分解</h4><p>到目前为止，我们已经研究了了如何用户和知识概念的文本特征和上下文特征。使用基于注意力机制的GCNs进行表示学习，我们可以得到知识概念 e<sup>k</sup>、用户e<sup>u</sup>的表示。在这一模块，我们提出一种基于扩展矩阵分解(MF)的方法来为用户进行知识1概念推荐。我们用用户对知识概念的点击次数构造评级矩阵。用户对知识概念的评分可以定义为如下:</p>
+<script type="math/tex; mode=display">
+    \widehat{r}_{u, k} = x_u^Ty_k</script><p>其中 $ x_u \in R^{D<em>m}$指示用户的潜在因素， $ y_k \in R^{D</em>n}$指示知识概念的潜在因素。<code>D</code>是潜在因素的数目。<code>m</code>和<code>n</code>是用户实体和知识概念实体的数目。因为我们已经获得了 用户<code>u</code>和知识概念<code>k</code>的表示，我们以以下方式将它们输入到评价矩阵中：</p>
+<script type="math/tex; mode=display">
+    \widehat{r}_{u,k} = x_u^Ty_k + \beta_u*e^{uT}t^k + \beta_k*t^{uT}e^k</script><p>其中 用户和知识概念用$e^u$ 和$e^k$来表示。可训练参数$t^u$和$t^k$的引入是为了确保 $e^u$和$e^k$在同一个向量空间。$\beta_u 和\beta_k$是调整参数。为了达到适当的评级预测的目的，MF的目标函数定义如下：</p>
+<script type="math/tex; mode=display">
+    {\underset{u, k} {min}} {1 \over {m*n}} \sum_{u=1}^{n}\sum_{k=1}^{m}(r_{u,k} - \widehat{r}_{u, k})^2</script><p>我们在函数中添加了正则项，因此以上目标函数的最终形式如下：</p>
+<script type="math/tex; mode=display">
+    {\underset{u, k} {min}} {1 \over {m*n}} \sum_{u=1}^{n}\sum_{k=1}^{m}(r_{u,k} - \widehat{r}_{u, k})^2 + \lambda({||x_u||}_2 + {||y_k||}_2+ {||t^u||}_2 + {||t_k||}^2)</script><p>其中$\lambda$是正则项参数，我们利用梯度下降算法优化最终目标函数的局部最小值。</p>
+<h3 id="实验"><a href="#实验" class="headerlink" title="实验"></a>实验</h3><h4 id="数据集"><a href="#数据集" class="headerlink" title="数据集"></a>数据集</h4><p>我们收集了真实世界MOOC平台XuetangX的数据。我们选择了注册行为发生在 2016年10月1日到2017年12月31日期间的数据作为训练集，其他的那些发生在2018年1月1日到2018年3月31日的数据作为测试集。训练集或测试集中每一个实体表示用户点击历史的序列。在训练的过程中，对于训练数据中的每个序列，<code>我们将最后点击的知识概念作为目标，剩余部分作为过去的行为。</code>此外，对于每一个正实例，我们随机生成一个负实例来替换目标知识概念【？】。在测试的过程中，我们把测试集中登记的每个知识概念作为目标知识概念；在训练集中同一个用户相关的知识概念被视为表示单击的知识概念的历史序列。为了评估推荐的性能，在测试集中每一个正实例都与99个随机抽样的负实例配对，并输出100个实例的预测分数（1个正99个负）。</p>
+<h4 id="评估矩阵"><a href="#评估矩阵" class="headerlink" title="评估矩阵"></a>评估矩阵</h4><p>我们依据广泛使用的评价指标评估了所有方法，包括 HR@K(Hit Ratio of top-K items, 前k项命中率)、NDCG@K(Normalized Discounted Cumulative Gain of top-K items, top-k项目的标准化贴现累积收益)。其中HR@K是一个召回指标(recall-based metric)，用户衡量前k名中成功推荐的真值比例，NDCG@K 是一个基于精度的度量，用于说明真值的预测预测位置。我们把K设置为5、10、20，并计算每100个实例的所有指标(1个正99个负)。最终给用户u推荐的列表是 $R_u = \{r_u^1, r_u^2, …, r_u^K\}$, $r_u^i$表示基于预测分数在$R_u$中的第<code>i</code>个位置。$T_u$是测试数据中用户<code>u</code>的交互集，N是测试集中全部用户数。</p>
+<script type="math/tex; mode=display">
+    HR@K = {1 \over N} \sum_u{I(|R_u \cap T_i|)}</script><p>其中， I(x) 是一个指示函数，当 <code>x&gt;0</code>表示 <code>1</code>， 其他情况值为<code>0</code>。HR@K的值越大，表示模型的效果越好。</p>
+<script type="math/tex; mode=display">
+    NDCG@K = {1 \over Z} DCG@K  =</script><script type="math/tex; mode=display">
+    {1 \over Z} \sum_{j=1}^{K} { {(2^{I(|{r_u^j} \cap T_u|)}) \over log_2(j+1)}}</script><p>其中， Z是一个归一化常数，相当于DCG@K可能的最大值。我们同样使用平均倒数排名(MRR)。 通过定义，我们知道，MRR越大表示模型的性能越好。</p>
+<script type="math/tex; mode=display">
+    MRR = {1 \over N} \sum_{i=1}^N {1 \over rank_i}</script><p>其中， rank<sub>i</sub>表示在100个实例中 正实例的排名位置。此外，我们同样添加了ROC曲线下面的面积(AUC)作为度量。</p>
+<h4 id="所提方法的细节分析"><a href="#所提方法的细节分析" class="headerlink" title="所提方法的细节分析"></a>所提方法的细节分析</h4><h5 id="评估不同元路径的组合"><a href="#评估不同元路径的组合" class="headerlink" title="评估不同元路径的组合"></a>评估不同元路径的组合</h5><p>在实验的这一模块，我们分析了元路径组合的选择如何影响ACKRec的性能，因为少量的高质量元路径可以带来可观的性能。我们考虑了单个的元路径，已经它们的组合。特别地，我们选出了四种元路径来描述用户对之间的关系，包括：$ MP_1: U {\rightarrow} K \stackrel{-1}{\rightarrow} U$, $ MP_2: U {\rightarrow} C \stackrel{-1}{\rightarrow} U$, $MP_3:  U {\rightarrow} V \stackrel{-1}{\rightarrow} U$ 和 $MP_4: U {\rightarrow} C {\rightarrow} T \stackrel{-1}{\rightarrow} C \stackrel{-1}{\rightarrow} U$, 我们还选择了三种元路径来描述这对知识概念之间的相关性，包括 $ K \leftrightarrow K$、$  K {\rightarrow} U \stackrel{-1}{\rightarrow} K$ 和 $ K {\rightarrow} C \stackrel{-1}{\rightarrow} K $， 为了分析少量元路径中不同组合的影响，我们使用了三种<code>元路径</code>来给知识概念建模，同时也研究了 单用户相关元路径及其组合的性能，实验结果如T3所示。<br><img src="/2022/04/11/Recommendation-Algorithm-01/t3.png"><br>分析T3我们可以发现, 每一条元路径(i.e., MP<sub>1</sub>、MP<sub>2</sub>、MP<sub>3</sub>， MP<sub>4</sub>)呈现了不同的性能，并且按照表现排序为: $MP_3 &gt; MP_1 &gt; MP_2 &gt; MP_4$并且组合的元路径的表现趋势也是一致的， 比如$ MP_1\&amp;MP_3 &gt; MP_1\&amp;MP_2 $。这说明了不同的元路径表示不同的关系。此外，尽管模型性能的增长并没有很明显，但是包含了更多的元路径的组合将表现出更好的性能，并且通过组合所有四个元路径达到了最佳表现。</p>
+<h5 id="评估模型参数"><a href="#评估模型参数" class="headerlink" title="评估模型参数"></a>评估模型参数</h5><p>在基于矩阵分解的方法里，潜在因素的数量是一个重要参数。因此我们对不同数量的潜在因素所获得的的性能进行了比较。如f4所示，我们使用了<code>HR@K、NDCG@K、MRR、AUC</code>来展示潜在因素数目改变对<code>ACKRec</code>的性能影响。我们以10位增量，将数字10调整到40。我们可以发现，尽管潜在因素数量在增加，但是性能增长变得平稳。并且 潜在因素数量为<code>30</code>时，性能表现是最佳的。<br><img src="/2022/04/11/Recommendation-Algorithm-01/f4.png"></p>
+<p>当我们将 <code>the number of latent factors = 30</code>之后， 我们研究了实体表示的维度设置，实验结果f5所示。我们使用了不同的维度来开展实验，包括(i.e., 20, 50, 100, 150, 200), 并且发现 维度为<code>100</code>时达到了最佳。因此，用户和知识概念都设置为100维的向量。结果同样说明了 在HIN中用户和知识概念的表示在提高推荐任务性能同样具有重要的作用。<br><img src="/2022/04/11/Recommendation-Algorithm-01/f5.png"><br>我们也实验验证了GCN层数对模型表现的影响。正如f6所示，我们可以清晰看到不同GCN层数(1,2,3,4)对所提模型性能的影响,同时 层数为<code>3</code>时为最优！<br><img src="/2022/04/11/Recommendation-Algorithm-01/f6.png"></p>
+<h4 id="基线方法"><a href="#基线方法" class="headerlink" title="基线方法"></a>基线方法</h4><p>为了评估所提模型方法的性能表现，我们考虑了以下基线方法：</p>
+<ul>
+<li>BPR: 它以贝叶斯方式优化推荐任务的成对排名损失；</li>
+<li>MLP: 它将多层感知器（MLP）应用于一对用户表示和相应的知识概念推荐表示，以了解向用户推荐知识概念的概率；</li>
+<li>FM: 这是一种原则性方法，可以很容易地结合任何启发式特征。然而，为了确保与其他方法进行公平性比较，我们只使用用户和知识概念的表示；</li>
+<li>FISM: 这是一种逐项协同过滤算法，基于所有的历史行为的平均嵌入和目标知识概念嵌入来执行建议； </li>
+<li>NAIS: 这是一种逐项协同过滤算法，但是使用了注意力机制区分不同在线学习行为的权重；</li>
+<li>NASR: 这是一种改善的<code>GRU</code>模型，根据GRU输出的响应隐藏向量估计每个行为历史的注意系数。GRU是一个门控循环单元模型， 它接收历史行为列表作为输入；</li>
+<li>metapath2vec: 这是一种基于元路径和HIN的随机游走和跳跃图表示算法。在ACKRec模型中，用户和知识概念的元路径相同的情况下，我们使用metapath2vec生成具有相同维度ACKRec的用户和知识概念表示；</li>
+<li>ACKRec<sub>h</sub> ACKRec的变种，忽视了异构信息网络中实体的异构性。我们重新生成邻接矩阵来表示不同类型的实体；</li>
+<li>ACKRec<sub>c</sub> ACKRec的变种， 没有注意力机制方法，并且将不同的元路径连接在一起；</li>
+<li>ACKRec<sub>s</sub> 基于内容特征的ACKRec， 该模型的输入只是实体的内容特征；</li>
+<li>ACKRec<sub>r</sub> 基于上下文的ACKRec， 与ACKRec<sub>s</sub>模型相似，上下文特征输入到该模型里面；</li>
+<li>ACKRec<sub>s+r</sub> 该方法结合了异构上下文特征和内容特征，从而最限度描述HIN中的实体。</li>
+</ul>
+<p>对于MOOCs中的数据集，我们将用户历史数据分割成训练集和测试集。我们所提方法和基线方法的训练时间如下：<br><code>BPR</code> 2hrs, <code>MLP</code> 2hrs, <code>FM</code> 2.5hrs, <code>FISM</code> 4hrs, <code>NAIS</code> 3.5 hrs, <code>NASR</code> 4.5 hrs, <code>metapath2vec</code> 5.5hrs, <code>ACKRec(our method)</code>: 4.5hrs。在T4中，我们比较了<code>ACKRec</code>和其他ML方法。 对于基于HIN的方法，我们在第3.1.2节中选择了性能最好的元路径组合，如T4所示， 基于HIN方法优于其他所有方法。这表明了MOOCs数据中异构的重要性。此外，实验结果表明融合了 <code>内容特征</code>和<code>上下文特征</code>的ACKRec<sub>s+r</sub>展示了<code>最佳的性能</code>。<br><img src="/2022/04/11/Recommendation-Algorithm-01/t4.png"><br>与metapath2vec基于随机游走策略生成的表示和skip-gram方法生成的节点不同，我们的模型利用GCN学习表示和自适应注意力机制学习不同的元路径权重，能够更好地捕捉数据中的异构性。<br>此外，与ACKRec<sub>h</sub>方法不同，实验结果明显展示了<code>ACKRec</code>利用基于HIN的元路径方法可以更高效地捕获异构关系。与ACKRec<sub>c</sub>比较，我们可以发现在不同的元路径中学习的自适应融合表示更优于简单的级联，因为不同的元路径对于不同任务权重会有所不同。此外，与ACKRec<sub>s</sub>和ACKRec<sub>r</sub>比较可以发现，仅利用内容特征或上下文特征的方法将丢失实体表示所需的信息，因此它们将不能全面地描述MOOC中用户和知识概念的特征。最终的方法ACKRec<sub>s+r</sub>在HIN上使用了自适应权重和基于元路径的方法，能够更全面地整合实体丰富的内容特征和不同类型实体的结构关系，并且达到最优性能。</p>
+<h4 id="个案研究"><a href="#个案研究" class="headerlink" title="个案研究"></a>个案研究</h4><p>在这一模块，我们通过一个案例来证明我们所提方法<code>ACKRec</code>的有效性。<br>我们随机选择了一个学生 <code>student:2481307</code>并根据单个元路径$MP_2$ 和组合元路径$MP_1-MP_2-MP_3-MP_4$获得top-10推荐列表。如f7所示，凭直觉我们可以发现，该模型在不同的实体条件下产生了不同的结果。随着用户和知识概念之间的关系更有意义，推荐列表将包含对应用户更多相关知识概念。比如，从<code>student:2481037</code>的点击历史列表我们可以知道，该学生对计算机网络相关领域比较感兴趣，元路径$MP_1-MP_2-MP_3-MP_4$的结果表名<code>ACKRec</code>可以捕捉到学生对知识概念的兴趣，匹配他下一次点击的是<code>异步传输</code>模式，用蓝色标明。其他的推荐结果，比如<code>protocol data unit</code>、<code>switched telephone network</code>、<code>switch</code>和<code>IPV4</code>同样是高度相关。特别地，推荐结果非常依赖于元路径的选择！<br><img src="/2022/04/11/Recommendation-Algorithm-01/f7.png" style="zoom:50%;"></p>
+<h3 id="相关工作"><a href="#相关工作" class="headerlink" title="相关工作"></a>相关工作</h3><h4 id="HIN中的GCN"><a href="#HIN中的GCN" class="headerlink" title="HIN中的GCN"></a>HIN中的GCN</h4><p>在现在的ML领域，图扮演者至关重要的角色。近年来，GCN已经成为机器学习中经常出现的话题，并且具有广泛的应用。然而，在真实世界，图经常是异构的。Wang et al.[28] 提出了DeepHGNN，这是一种注意力机制的异构图神经网络模型，能够从异构程序行为图中学习以指导重新识别过程。 Wang et al.[29]提出 <code>HAGNN</code>，这是一种分层注意图神经编码器，并且将其用于程序行为图分析。此外，<code>GEM</code>模型也是一种异构图神经网络方法，用来检测支付宝上的恶意账户。但是与这些方法不同，<code>我们所提出的方法利用了注意力机制的GCNs来表示在HIN中的用户和知识概念。</code></p>
+<h4 id="HIN中的推荐系统"><a href="#HIN中的推荐系统" class="headerlink" title="HIN中的推荐系统"></a>HIN中的推荐系统</h4><p>一些信息推荐模型是基于HIN网络的。？提出一种基于图模型用来解决异构网络中的一般推荐问题。 Yu et al.[32]提出使用根据潜在特征的元路径来表示用户和实体之间的关联性以及不同类型的路径。 此外，沿着前面以及做过的工作，Shi et al.[10, 23, 24]提出使用元路径概念来在HIN中给异构信息建模。这与先前的工作不同，本研究侧重于获取HIN网络上的不同类型实体的表示，并且将不同类型实体的结构融合在一起，以完成知识概念的推荐任务。</p>
+<h3 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h3><p>在我们所做的工作当中，我们调研了MOOCs系统中知识概念推荐的问题，且这个问题常常被人忽视。【GAP】我们提出<code>ACKRec</code>和一种端到端的图神经网络方法，该方法自然的将丰富的异构上下文信息整合到知识概念推荐中。为了以更自然、更直观的方式利用丰富的上下文信息，我们把MOOCs建模为一个HIN网络。我们设计了一个基于注意力机制的GCN来学习不同实体的表示，并且以一种注意力的方法使用元路径来传播上下文信息。在所提出的注意力GCN，用户的兴趣能够有效地被发现和聚合。从XuetangX采集的真实数据进行了全面的实验研究。我们所提方法的性能表现胜于强基线，实验结果表明了该方法的有效性。</p>
+
     </div>
 
     
@@ -429,7 +476,7 @@ f : u\rightarrow \{k_i|k_i\in K, i < N\}</script><h4 id="系统架构"><a href="
             在异构视角下Moocs知识概念推荐的注意力机制的图卷积网络 
 
             
-          </span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%91%98%E8%A6%81"><span class="nav-number">2.</span> <span class="nav-text">摘要</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E9%94%AE%E8%AF%8D"><span class="nav-number">3.</span> <span class="nav-text">关键词</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%8B%E7%BB%8D"><span class="nav-number">4.</span> <span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E9%99%88%E8%BF%B0-amp-%E7%B3%BB%E7%BB%9F%E6%A1%86%E6%9E%B6"><span class="nav-number">5.</span> <span class="nav-text">问题陈述&amp;系统框架</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E9%99%88%E8%BF%B0"><span class="nav-number">5.1.</span> <span class="nav-text">问题陈述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84"><span class="nav-number">5.2.</span> <span class="nav-text">系统架构</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%89%80%E5%BB%BA%E8%AE%AE%E7%9A%84%E6%96%B9%E6%B3%95"><span class="nav-number">6.</span> <span class="nav-text">所建议的方法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%89%B9%E5%BE%81%E6%8A%BD%E5%8F%96"><span class="nav-number">6.1.</span> <span class="nav-text">特征抽取</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%86%85%E5%AE%B9%E7%89%B9%E5%BE%81"><span class="nav-number">6.1.1.</span> <span class="nav-text">内容特征</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%8A%E4%B8%8B%E6%96%87%E7%89%B9%E5%BE%81"><span class="nav-number">6.1.2.</span> <span class="nav-text">上下文特征</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8E%E5%85%B3%E7%B3%BB%E7%9A%84%E5%85%83%E8%B7%AF%E5%BE%84"><span class="nav-number">6.2.</span> <span class="nav-text">基于关系的元路径</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8E%E6%B3%A8%E6%84%8F%E5%8A%9B%E7%9A%84HIN%E8%A1%A8%E5%BE%81%E5%AD%A6%E4%B9%A0%E5%9B%BE%E5%8D%B7%E7%A7%AF%E7%BD%91%E7%BB%9C"><span class="nav-number">6.3.</span> <span class="nav-text">基于注意力的HIN表征学习图卷积网络</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%9F%A5%E8%AF%86%E6%A6%82%E5%BF%B5%E6%8E%A8%E8%8D%90%E7%9A%84%E7%9F%A9%E9%98%B5%E5%88%86%E8%A7%A3"><span class="nav-number">6.4.</span> <span class="nav-text">知识概念推荐的矩阵分解</span></a></li></ol></li></ol></div>
+          </span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%91%98%E8%A6%81"><span class="nav-number">2.</span> <span class="nav-text">摘要</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E9%94%AE%E8%AF%8D"><span class="nav-number">3.</span> <span class="nav-text">关键词</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%8B%E7%BB%8D"><span class="nav-number">4.</span> <span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E9%99%88%E8%BF%B0-amp-%E7%B3%BB%E7%BB%9F%E6%A1%86%E6%9E%B6"><span class="nav-number">5.</span> <span class="nav-text">问题陈述&amp;系统框架</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E9%99%88%E8%BF%B0"><span class="nav-number">5.1.</span> <span class="nav-text">问题陈述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84"><span class="nav-number">5.2.</span> <span class="nav-text">系统架构</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%89%80%E5%BB%BA%E8%AE%AE%E7%9A%84%E6%96%B9%E6%B3%95"><span class="nav-number">6.</span> <span class="nav-text">所建议的方法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%89%B9%E5%BE%81%E6%8A%BD%E5%8F%96"><span class="nav-number">6.1.</span> <span class="nav-text">特征抽取</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%86%85%E5%AE%B9%E7%89%B9%E5%BE%81"><span class="nav-number">6.1.1.</span> <span class="nav-text">内容特征</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%8A%E4%B8%8B%E6%96%87%E7%89%B9%E5%BE%81"><span class="nav-number">6.1.2.</span> <span class="nav-text">上下文特征</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8E%E5%85%B3%E7%B3%BB%E7%9A%84%E5%85%83%E8%B7%AF%E5%BE%84"><span class="nav-number">6.2.</span> <span class="nav-text">基于关系的元路径</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8E%E6%B3%A8%E6%84%8F%E5%8A%9B%E7%9A%84HIN%E8%A1%A8%E5%BE%81%E5%AD%A6%E4%B9%A0%E5%9B%BE%E5%8D%B7%E7%A7%AF%E7%BD%91%E7%BB%9C"><span class="nav-number">6.3.</span> <span class="nav-text">基于注意力的HIN表征学习图卷积网络</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%9F%A5%E8%AF%86%E6%A6%82%E5%BF%B5%E6%8E%A8%E8%8D%90%E7%9A%84%E7%9F%A9%E9%98%B5%E5%88%86%E8%A7%A3"><span class="nav-number">6.4.</span> <span class="nav-text">知识概念推荐的矩阵分解</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C"><span class="nav-number">7.</span> <span class="nav-text">实验</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E9%9B%86"><span class="nav-number">7.1.</span> <span class="nav-text">数据集</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AF%84%E4%BC%B0%E7%9F%A9%E9%98%B5"><span class="nav-number">7.2.</span> <span class="nav-text">评估矩阵</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%89%80%E6%8F%90%E6%96%B9%E6%B3%95%E7%9A%84%E7%BB%86%E8%8A%82%E5%88%86%E6%9E%90"><span class="nav-number">7.3.</span> <span class="nav-text">所提方法的细节分析</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%AF%84%E4%BC%B0%E4%B8%8D%E5%90%8C%E5%85%83%E8%B7%AF%E5%BE%84%E7%9A%84%E7%BB%84%E5%90%88"><span class="nav-number">7.3.1.</span> <span class="nav-text">评估不同元路径的组合</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%AF%84%E4%BC%B0%E6%A8%A1%E5%9E%8B%E5%8F%82%E6%95%B0"><span class="nav-number">7.3.2.</span> <span class="nav-text">评估模型参数</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9F%BA%E7%BA%BF%E6%96%B9%E6%B3%95"><span class="nav-number">7.4.</span> <span class="nav-text">基线方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%AA%E6%A1%88%E7%A0%94%E7%A9%B6"><span class="nav-number">7.5.</span> <span class="nav-text">个案研究</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9B%B8%E5%85%B3%E5%B7%A5%E4%BD%9C"><span class="nav-number">8.</span> <span class="nav-text">相关工作</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#HIN%E4%B8%AD%E7%9A%84GCN"><span class="nav-number">8.1.</span> <span class="nav-text">HIN中的GCN</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#HIN%E4%B8%AD%E7%9A%84%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F"><span class="nav-number">8.2.</span> <span class="nav-text">HIN中的推荐系统</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%93%E8%AE%BA"><span class="nav-number">9.</span> <span class="nav-text">结论</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -492,12 +539,12 @@ f : u\rightarrow \{k_i|k_i\in K, i < N\}</script><h4 id="系统架构"><a href="
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">25k</span>
+    <span title="站点总字数">31k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">45 分钟</span>
+    <span title="站点阅读时长">56 分钟</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
   </div>
