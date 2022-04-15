@@ -40,7 +40,7 @@
 <meta property="og:image" content="http://zhangjin.link/2022/04/11/Recommendation-Algorithm-01/t4.png">
 <meta property="og:image" content="http://zhangjin.link/2022/04/11/Recommendation-Algorithm-01/f7.png">
 <meta property="article:published_time" content="2022-04-11T08:33:42.000Z">
-<meta property="article:modified_time" content="2022-04-14T13:39:26.374Z">
+<meta property="article:modified_time" content="2022-04-15T01:23:38.459Z">
 <meta property="article:author" content="张锦">
 <meta property="article:tag" content="推荐算法">
 <meta name="twitter:card" content="summary">
@@ -205,7 +205,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-04-14 21:39:26" itemprop="dateModified" datetime="2022-04-14T21:39:26+08:00">2022-04-14</time>
+                <time title="修改时间：2022-04-15 09:23:38" itemprop="dateModified" datetime="2022-04-15T09:23:38+08:00">2022-04-15</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -365,7 +365,7 @@ f : u\rightarrow \{k_i|k_i\in K, i < N\}</script><h4 id="系统架构"><a href="
 <h4 id="个案研究"><a href="#个案研究" class="headerlink" title="个案研究"></a>个案研究</h4><p>在这一模块，我们通过一个案例来证明我们所提方法<code>ACKRec</code>的有效性。<br>我们随机选择了一个学生 <code>student:2481307</code>并根据单个元路径$MP_2$ 和组合元路径$MP_1-MP_2-MP_3-MP_4$获得top-10推荐列表。如f7所示，凭直觉我们可以发现，该模型在不同的实体条件下产生了不同的结果。随着用户和知识概念之间的关系更有意义，推荐列表将包含对应用户更多相关知识概念。比如，从<code>student:2481037</code>的点击历史列表我们可以知道，该学生对计算机网络相关领域比较感兴趣，元路径$MP_1-MP_2-MP_3-MP_4$的结果表名<code>ACKRec</code>可以捕捉到学生对知识概念的兴趣，匹配他下一次点击的是<code>异步传输</code>模式，用蓝色标明。其他的推荐结果，比如<code>protocol data unit</code>、<code>switched telephone network</code>、<code>switch</code>和<code>IPV4</code>同样是高度相关。特别地，推荐结果非常依赖于元路径的选择！<br><img src="/2022/04/11/Recommendation-Algorithm-01/f7.png" style="zoom:50%;"></p>
 <h3 id="相关工作"><a href="#相关工作" class="headerlink" title="相关工作"></a>相关工作</h3><h4 id="HIN中的GCN"><a href="#HIN中的GCN" class="headerlink" title="HIN中的GCN"></a>HIN中的GCN</h4><p>在现在的ML领域，图扮演者至关重要的角色。近年来，GCN已经成为机器学习中经常出现的话题，并且具有广泛的应用。然而，在真实世界，图经常是异构的。Wang et al.[28] 提出了DeepHGNN，这是一种注意力机制的异构图神经网络模型，能够从异构程序行为图中学习以指导重新识别过程。 Wang et al.[29]提出 <code>HAGNN</code>，这是一种分层注意图神经编码器，并且将其用于程序行为图分析。此外，<code>GEM</code>模型也是一种异构图神经网络方法，用来检测支付宝上的恶意账户。但是与这些方法不同，<code>我们所提出的方法利用了注意力机制的GCNs来表示在HIN中的用户和知识概念。</code></p>
 <h4 id="HIN中的推荐系统"><a href="#HIN中的推荐系统" class="headerlink" title="HIN中的推荐系统"></a>HIN中的推荐系统</h4><p>一些信息推荐模型是基于HIN网络的。？提出一种基于图模型用来解决异构网络中的一般推荐问题。 Yu et al.[32]提出使用根据潜在特征的元路径来表示用户和实体之间的关联性以及不同类型的路径。 此外，沿着前面以及做过的工作，Shi et al.[10, 23, 24]提出使用元路径概念来在HIN中给异构信息建模。这与先前的工作不同，本研究侧重于获取HIN网络上的不同类型实体的表示，并且将不同类型实体的结构融合在一起，以完成知识概念的推荐任务。</p>
-<h3 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h3><p>在我们所做的工作当中，我们调研了MOOCs系统中知识概念推荐的问题，且这个问题常常被人忽视。【GAP】我们提出<code>ACKRec</code>和一种端到端的图神经网络方法，该方法自然的将丰富的异构上下文信息整合到知识概念推荐中。为了以更自然、更直观的方式利用丰富的上下文信息，我们把MOOCs建模为一个HIN网络。我们设计了一个基于注意力机制的GCN来学习不同实体的表示，并且以一种注意力的方法使用元路径来传播上下文信息。在所提出的注意力GCN，用户的兴趣能够有效地被发现和聚合。从XuetangX采集的真实数据进行了全面的实验研究。我们所提方法的性能表现胜于强基线，实验结果表明了该方法的有效性。</p>
+<h3 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h3><p>在我们所做的工作当中，我们调研了MOOCs系统中知识概念推荐的问题，且这个问题常常被人忽视。【GAP】我们提出<code>ACKRec</code>是一种端到端的图神经网络方法，该方法自然的将丰富的异构上下文信息整合到知识概念推荐中。为了以更自然、更直观的方式利用丰富的上下文信息，我们把MOOCs建模为一个HIN网络。我们设计了一个基于注意力机制的GCN来学习不同实体的表示，并且以一种注意力的方法使用元路径来传播上下文信息。在所提出的注意力GCN，用户的兴趣能够有效地被发现和聚合。从XuetangX采集的真实数据进行了全面的实验研究。我们所提方法的性能表现胜于强基线，实验结果表明了该方法的有效性。</p>
 
     </div>
 
