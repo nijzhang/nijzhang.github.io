@@ -14,4 +14,4 @@ Disallow: /fancybox/
 
 
 Sitemap: http://zhangjin.link/sitemap.xml
-http://zhangjin.link/baidusitemap.xml
+Sitemap: http://zhangjin.link/baidusitemap.xml
