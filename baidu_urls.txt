@@ -8,3 +8,7 @@ http://zhangjin.link/2022/04/11/leetcode-357/
 http://zhangjin.link/2022/04/10/leetcode-804/
 http://zhangjin.link/2022/04/09/00-Machine-Learning-Decison-Trees/
 http://zhangjin.link/2022/04/09/leetcode-780/
+http://zhangjin.link/2022/04/08/leetcode-429/
+http://zhangjin.link/2022/04/07/leetcode-796/
+http://zhangjin.link/2022/04/06/leetcode-34/
+http://zhangjin.link/2022/04/05/hello-world/
