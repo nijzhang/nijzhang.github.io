@@ -1,5 +1,1 @@
-http://www.zhangjin.link/2022/04/18/leetcode-386/
-http://www.zhangjin.link/2022/04/17/leetcode-819/
-http://www.zhangjin.link/2022/04/16/tools-windows11-01/
-http://www.zhangjin.link/2022/04/14/leetcode-1672/
-http://www.zhangjin.link/2022/04/13/leetcode-380/
+http://www.zhangjin.link/2022/04/19/leetcode-821/
